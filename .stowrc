@@ -1,0 +1,3 @@
+--target=$XDG_CONFIG_HOME
+--ignore=.stowrc
+--ignore=DS_Store
