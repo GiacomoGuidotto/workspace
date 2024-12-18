@@ -17,10 +17,11 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = [
+  home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    # pkgs.hello
+    hello
+    stow
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -43,6 +44,10 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".zshrc".source = ~/dev/dotfiles/zsh/.zshrc;
+    ".config/nix".source = ~/dev/dotfiles/nix;
+    ".config/home-manager".source = ~/dev/dotfiles/home-manager;
+
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -68,7 +73,7 @@
   #  /etc/profiles/per-user/giacomo/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "zed --wait";
   };
 
   # Let Home Manager install and manage itself.

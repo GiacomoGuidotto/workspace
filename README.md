@@ -1,23 +1,28 @@
 # dotfiles
 
-## Getting started
+My dotfiles. Powered by Nix and home-manager.
 
-### Prerequisites
+## Getting started (from scratch!)
 
-Install Nix: [multi-user installation](https://nix.dev/install-nix)
+Install Nix ([docs](https://nix.dev/install-nix)):
 
-Install Nix home-manager: [standalone installation](https://nix-community.github.io/home-manager/index.xhtml#sec-install-standalone)
-
-### Installation
-
-From the root of the repository, run the following command to symlink the dotfiles to the `XDG_CONFIG_HOME` directory:
-
-```bash
-stow .
+```sh
+curl -L https://nixos.org/nix/install | sh
 ```
 
-Temporarily, run the following command to symlink the `.zshrc` file to the home directory:
+Install Nix home-manager standalone ([docs](https://nix-community.github.io/home-manager/index.xhtml#sec-install-standalone)):
 
-```bash
-ln -s $(pwd)/zsh/.zshrc ~/.zshrc
+```sh
+nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+nix-channel --update
+```
+
+```sh
+nix-shell '<home-manager>' -A install
+```
+
+Bootstrap home-manager:
+
+```sh
+home-manager switch -f home-manager/home.nix
 ```

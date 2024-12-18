@@ -39,7 +39,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # deno
 . "$HOME/.deno/env"
 # completions
-if [[ ":$FPATH:" != *":$HOME/.zsh/completions:"* ]]; then export FPATH="$HOME/.zsh/completions:$FPATH"; fi
+source <(deno completions zsh)
 
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
@@ -59,7 +59,7 @@ export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools"
 
 # set default editor
-export EDITOR="zed --wait"
+# export EDITOR="zed --wait"
 
 # set config dir
 export XDG_CONFIG_HOME="$HOME/.config"
