@@ -1,0 +1,10 @@
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "ctrl-shift-o": "projects::OpenRecent",
+      "ctrl-shift-l": "editor::ToggleRelativeLineNumbers",
+      "cmd-n": "workspace::NewTerminal"
+    }
+  }
+]

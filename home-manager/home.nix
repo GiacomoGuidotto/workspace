@@ -18,21 +18,25 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    hello
+    nixd
+    nil
     stow
+    lazygit
+    lazydocker
+    neofetch
+    neovim
+    zed-editor
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
     # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+    # (nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
     # # You can also create simple shell scripts directly inside your
     # # configuration. For example, this adds a command 'my-hello' to your
     # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
+    # (writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
@@ -47,7 +51,10 @@
     ".zshrc".source = ~/dev/dotfiles/zsh/.zshrc;
     ".config/nix".source = ~/dev/dotfiles/nix;
     ".config/home-manager".source = ~/dev/dotfiles/home-manager;
-
+    ".config/lazygit".source = ~/dev/dotfiles/lazygit;
+    ".config/neofetch".source = ~/dev/dotfiles/neofetch;
+    ".config/zed".source = ~/dev/dotfiles/zed;
+    ".config/nvim".source = ~/dev/dotfiles/nvim;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -78,4 +85,7 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+  # zsh
+  programs.zsh.enable = true;
 }

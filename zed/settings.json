@@ -1,0 +1,62 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run the `open default settings` command
+// from the command palette or from `Zed` application menu.
+{
+  "assistant": {
+    "default_model": {
+      "provider": "zed.dev",
+      "model": "claude-3-5-sonnet-latest"
+    },
+    "version": "2"
+  },
+
+  "auto_update": true,
+  "base_keymap": "JetBrains",
+  "theme": "Andromeda",
+  // "ui_font_family": "BlexMono Nerd Font Mono",
+  "buffer_font_family": "BlexMono Nerd Font Mono",
+
+  "terminal": {
+    "font_family": "BlexMono Nerd Font Mono",
+    "line_height": "standard"
+  },
+
+  "tab_size": 2,
+  "ui_font_size": 15,
+  "buffer_font_size": 15,
+
+  "autosave": "on_focus_change",
+  "format_on_save": "on",
+  "code_actions_on_format": {
+    "source.organizeImports": true,
+    "source.addAllMissingImports": true,
+    "source.removeUnusedImports": true
+  },
+
+  "vim_mode": true,
+
+  "wrap_guides": [80],
+  "show_wrap_guides": true,
+  "languages": {
+    "Markdown": {
+      "soft_wrap": "preferred_line_length"
+    }
+  },
+
+  "lsp": {
+    "nil": {
+      "initialization_options": {
+        "formatting": {
+          "command": ["nixfmt"]
+        }
+      }
+    }
+  },
+
+  "telemetry": { "metrics": false }
+}
