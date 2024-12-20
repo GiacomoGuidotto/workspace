@@ -17,15 +17,15 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    nixd
-    nil
-    stow
-    lazygit
-    lazydocker
-    neofetch
-    neovim
-    zed-editor
+  # home.packages = with pkgs; [
+    # nixd
+    # nil
+    # stow
+    # lazygit
+    # lazydocker
+    # neofetch
+    # neovim
+    # zed-editor
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -39,7 +39,7 @@
     # (writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-  ];
+  # ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -48,13 +48,12 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".zshrc".source = ~/dev/dotfiles/zsh/.zshrc;
-    ".config/nix".source = ~/dev/dotfiles/nix;
-    ".config/home-manager".source = ~/dev/dotfiles/home-manager;
-    ".config/lazygit".source = ~/dev/dotfiles/lazygit;
-    ".config/neofetch".source = ~/dev/dotfiles/neofetch;
-    ".config/zed".source = ~/dev/dotfiles/zed;
-    ".config/nvim".source = ~/dev/dotfiles/nvim;
+    ".zshrc".source = ../zsh/.zshrc;
+    # ".config/nix".source = ../nix;
+    # ".config/lazygit".source = ../lazygit;
+    # ".config/neofetch".source = ../neofetch;
+    # ".config/zed".source = ../zed;
+    # ".config/nvim".source = ../nvim;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''

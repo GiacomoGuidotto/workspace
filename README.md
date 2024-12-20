@@ -10,19 +10,14 @@ Install Nix ([docs](https://nix.dev/install-nix)):
 curl -L https://nixos.org/nix/install | sh
 ```
 
-Install Nix home-manager standalone ([docs](https://nix-community.github.io/home-manager/index.xhtml#sec-install-standalone)):
+Bootstrap nix-darwin: ([docs](https://github.com/LnL7/nix-darwin/?tab=readme-ov-file#step-2-installing-nix-darwin)):
 
 ```sh
-nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
-nix-channel --update
+nix run nix-darwin -- switch --flake ./nix-darwin#main
 ```
 
-```sh
-nix-shell '<home-manager>' -A install
-```
-
-Bootstrap home-manager:
+Run `stow` (you might need to remove already existing folders inside `~/.config`):
 
 ```sh
-home-manager switch -f home-manager/home.nix
+stow .
 ```
