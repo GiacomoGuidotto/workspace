@@ -45,6 +45,8 @@
         # apps
         spotify
         tailscale
+        discord
+        arc-browser
       ];
 
       nixpkgs.config.allowUnfreePredicate =
@@ -52,6 +54,8 @@
           "warp-terminal"
           "raycast"
           "spotify"
+          "discord"
+          "arc-browser"
         ];
 
       # set git commit hash for darwin-version.
