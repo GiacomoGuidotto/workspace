@@ -18,14 +18,6 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   # home.packages = with pkgs; [
-    # nixd
-    # nil
-    # stow
-    # lazygit
-    # lazydocker
-    # neofetch
-    # neovim
-    # zed-editor
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -80,6 +72,8 @@
   #
   home.sessionVariables = {
     EDITOR = "zed --wait";
+    XDG_CONFIG_HOME="$HOME/.config";
+    NIX_CONF_DIR="$HOME/.config/nix";
   };
 
   # Let Home Manager install and manage itself.

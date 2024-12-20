@@ -1,12 +1,26 @@
 # aliases
-alias ll="ls -la"
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
 alias cl="clear"
 alias x="exit"
 alias up="brew update"
 alias lz="lazygit"
+alias lzd="lazydocker"
+
+# eza
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
+
+# fzf
+source <(fzf --zsh)
 
 # navigation
-cdl() { cd "$@" && ll; }
+cx() { cd "$@" && l; }
+fcd() { cd "$(find . -type d -not -path '*/.*' | fzf)" && l; }
+f() { echo "$(find . -type f -not -path '*/.*' | fzf)" | pbcopy }
 
 # yarn
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
@@ -38,17 +52,3 @@ export GOPATH="$HOME/dev/go"
 # android
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export PATH="$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools"
-
-# set default editor
-# export EDITOR="zed --wait"
-
-# set config dir
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# nix
-export NIX_CONF_DIR=$HOME/.config/nix
-export PATH=/run/current-system/sw/bin:$PATH
-
-if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-	 . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-fi

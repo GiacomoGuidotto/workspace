@@ -20,22 +20,44 @@
       # packages installed in system profile.
       # to search by name: $ nix-env -qaP | grep vim
       environment.systemPackages = with pkgs; [
+        # nix internals
         nixd
         nil
+
+        # terminals
+        warp-terminal
+        # ghostty
+
+        # tools
         stow
+        fzf
+        eza
+        neofetch
         lazygit
         lazydocker
-        neofetch
+        raycast
+
+        # editors
         neovim
         zed-editor
         vim
+
+        # apps
+        spotify
       ];
+
+      nixpkgs.config.allowUnfreePredicate =
+        pkg : builtins.elem (pkgs.lib.getName pkg) [
+          "warp-terminal"
+          "raycast"
+          "spotify"
+        ];
 
       # set git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
 
       # used for backwards compatibility
-      # please read the changelog before changing:
+      # please read the changelog BEFORE changing:
       # $ darwin-rebuild changelog
       system.stateVersion = 5;
 
@@ -51,7 +73,7 @@
       nix.settings.experimental-features = "nix-command flakes";
       nix.useDaemon = true;
 
-      # other pprograms
+      # other programs
       programs.zsh.enable = true;
     };
   in
