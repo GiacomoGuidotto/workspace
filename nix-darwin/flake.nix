@@ -44,6 +44,7 @@
 
         # apps
         spotify
+        tailscale
       ];
 
       nixpkgs.config.allowUnfreePredicate =
@@ -75,6 +76,7 @@
 
       # other programs
       programs.zsh.enable = true;
+      services.tailscale.enable = true;
     };
   in
   {
