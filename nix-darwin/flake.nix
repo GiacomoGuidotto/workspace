@@ -17,7 +17,27 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
   let
     configuration = { pkgs, ... }: {
-      # packages installed in system profile.
+      # the platform the configuration will be used on
+      nixpkgs.hostPlatform = "aarch64-darwin";
+
+      # home-manager external configuration
+      users.users.giacomo.home = "/Users/giacomo";
+      home-manager.backupFileExtension = "backup";
+
+      # used for backwards compatibility
+      # please read the changelog BEFORE changing:
+      # $ darwin-rebuild changelog
+      system.stateVersion = 5;
+
+      # set git commit hash for darwin-version
+      system.configurationRevision = self.rev or self.dirtyRev or null;
+
+      # nix configuration
+      services.nix-daemon.enable = true;
+      nix.settings.experimental-features = "nix-command flakes";
+      nix.useDaemon = true;
+
+      # packages installed in system profile
       # to search by name: $ nix-env -qaP | grep vim
       environment.systemPackages = with pkgs; [
         # nix internals
@@ -61,28 +81,7 @@
           "signal-desktop"
         ];
 
-      # set git commit hash for darwin-version.
-      system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # used for backwards compatibility
-      # please read the changelog BEFORE changing:
-      # $ darwin-rebuild changelog
-      system.stateVersion = 5;
-
-      # the platform the configuration will be used on
-      nixpkgs.hostPlatform = "aarch64-darwin";
-
-      # home-manager external configuration
-      users.users.giacomo.home = "/Users/giacomo";
-      home-manager.backupFileExtension = "backup";
-
-      # nix configuration
-      services.nix-daemon.enable = true;
-      nix.settings.experimental-features = "nix-command flakes";
-      nix.useDaemon = true;
-
       # other programs
-      programs.zsh.enable = true;
       services.tailscale.enable = true;
     };
   in

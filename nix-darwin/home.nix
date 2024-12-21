@@ -1,23 +1,17 @@
 { config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "giacomo";
   home.homeDirectory = "/Users/giacomo";
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "24.11"; # Please read the comment before changing.
+  # home-manager version
+  # used for backwards compatibility
+  # please check release notes BEFORE changing:
+  home.stateVersion = "24.11";
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
+  # packages installed in user profile.
   # home.packages = with pkgs; [
+    # vim
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -33,52 +27,51 @@
     # '')
   # ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
+  # simlinks of files copied to the Nix store.
+  # source path is relative to the flake root.
   home.file = {
-    # # Building this configuration will create a copy of 'dotfiles/screenrc' in
-    # # the Nix store. Activating the configuration will then make '~/.screenrc' a
-    # # symlink to the Nix store copy.
-    # ".screenrc".source = dotfiles/screenrc;
-    ".zshrc".source = ../zsh/.zshrc;
+    # ".config/lazygit" = {
+    #   source = ../lazygit;
+    #   recursive = true;
+    # };
+    # ".config/neofetch" = {
+    #   source = ../neofetch;
+    #   recursive = true;
+    # };
+    # ".config/nix" = {
+    #   source = ../nix;
+    #   recursive = true;
+    # };
+    # ".config/nix-darwin" = {
+    #   source = ../nix-darwin;
+    #   recursive = true;
+    # };
+    # ".config/nvim" = {
+    #   source = ../nvim;
+    #   recursive = true;
+    # };
+    # ".config/zed" = {
+    #   source = ../zed;
+    #   recursive = true;
+    # };
+
     ".warp" = {
       source = ../warp;
       recursive = true;
     };
 
-
-    # # You can also set the file content immediately.
-    # ".gradle/gradle.properties".text = ''
-    #   org.gradle.console=verbose
-    #   org.gradle.daemon.idletimeout=3600000
-    # '';
+    ".zshrc".source = ../zsh/.zshrc;
   };
 
-  # Home Manager can also manage your environment variables through
-  # 'home.sessionVariables'. These will be explicitly sourced when using a
-  # shell provided by Home Manager. If you don't want to manage your shell
-  # through Home Manager then you have to manually source 'hm-session-vars.sh'
-  # located at either
-  #
-  #  ~/.nix-profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  ~/.local/state/nix/profiles/profile/etc/profile.d/hm-session-vars.sh
-  #
-  # or
-  #
-  #  /etc/profiles/per-user/giacomo/etc/profile.d/hm-session-vars.sh
-  #
+  # session variables
+  # available only if using a home-manager shell
   home.sessionVariables = {
     EDITOR = "zed --wait";
-    XDG_CONFIG_HOME="$HOME/.config";
-    NIX_CONF_DIR="$HOME/.config/nix";
+    XDG_CONFIG_HOME = "$HOME/.config";
+    NIX_CONF_DIR = "$HOME/.config/nix";
   };
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-
-  # zsh
+  # programs managed by home-manager
   programs.zsh.enable = true;
+  programs.home-manager.enable = true;
 }
