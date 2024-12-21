@@ -30,6 +30,7 @@
 
         # tools
         stow
+        tree
         fzf
         eza
         neofetch
@@ -47,6 +48,7 @@
         tailscale
         discord
         arc-browser
+        signal-desktop
       ];
 
       nixpkgs.config.allowUnfreePredicate =
@@ -56,6 +58,7 @@
           "spotify"
           "discord"
           "arc-browser"
+          "signal-desktop"
         ];
 
       # set git commit hash for darwin-version.

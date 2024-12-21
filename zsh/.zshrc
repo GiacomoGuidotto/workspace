@@ -14,6 +14,9 @@ alias lzd="lazydocker"
 alias l="eza -l --icons --git -a"
 alias lt="eza --tree --level=2 --long --icons --git"
 
+# tree
+alias la=tree
+
 # fzf
 source <(fzf --zsh)
 

@@ -41,11 +41,11 @@
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
     ".zshrc".source = ../zsh/.zshrc;
-    # ".config/nix".source = ../nix;
-    # ".config/lazygit".source = ../lazygit;
-    # ".config/neofetch".source = ../neofetch;
-    # ".config/zed".source = ../zed;
-    # ".config/nvim".source = ../nvim;
+    ".warp" = {
+      source = ../warp;
+      recursive = true;
+    };
+
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
