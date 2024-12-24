@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
   home.username = "giacomo";
@@ -30,6 +30,10 @@
   # simlinks of files copied to the Nix store.
   # source path is relative to the flake root.
   home.file = {
+    # ".config/aerospace" = {
+    #   source = ../aerospace;
+    #   recursive = true;
+    # };
     # ".config/lazygit" = {
     #   source = ../lazygit;
     #   recursive = true;

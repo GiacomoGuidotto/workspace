@@ -6,9 +6,8 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 alias cl="clear"
 alias x="exit"
-alias up="brew update"
 alias lz="lazygit"
-alias lzd="lazydocker"
+alias lzd="open -a docker && lazydocker"
 
 # eza
 alias l="eza -l --icons --git -a"

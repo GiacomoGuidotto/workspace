@@ -75,6 +75,9 @@
             nil
             nixfmt-rfc-style
 
+            # desktop environment
+            aerospace
+
             # terminals
             warp-terminal
             # alacritty
