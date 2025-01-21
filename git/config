@@ -1,4 +1,5 @@
 [core]
 	autocrlf = input
+	excludesfile = $XDG_CONFIG_HOME/git/.gitignore
 [fetch]
 	prune = true
