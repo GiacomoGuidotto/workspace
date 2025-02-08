@@ -1,4 +1,25 @@
+[include]
+    path = ./catpuccin.gitconfig
+		
+[delta]
+    navigate = true
+    line-numbers = true
+    hyperlinks = true
+    hyperlinks-file-link-format = "lazygit-edit://{path}:{line}"
+    side-by-side = true
+    paging = never
+    dark = true
+    features = catppuccin-mocha
+
 [core]
-	autocrlf = input
+    autocrlf = input
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
 [fetch]
-	prune = true
+    prune = true
+
+[merge]
+    conflictstyle = zdiff3
