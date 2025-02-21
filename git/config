@@ -1,6 +1,20 @@
 [include]
     path = ./catpuccin.gitconfig
 
+[core]
+    autocrlf = input
+    pager = delta
+    attributesfile = "~/.config/git/attributes"
+
+[interactive]
+    diffFilter = delta
+
+[fetch]
+    prune = true
+
+[merge]
+    conflictstyle = zdiff3
+
 [delta]
     navigate = true
     line-numbers = true
@@ -11,15 +25,21 @@
     dark = true
     features = catppuccin-mocha
 
-[core]
-    autocrlf = input
-    pager = delta
+[diff "jupyternotebook"]
+	command = git-nbdiffdriver diff
 
-[interactive]
-    diffFilter = delta
+[merge "jupyternotebook"]
+	driver = git-nbmergedriver merge %O %A %B %L %P
+	name = jupyter notebook merge driver
 
-[fetch]
-    prune = true
+[difftool "nbdime"]
+	cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
 
-[merge]
-    conflictstyle = zdiff3
+[difftool]
+	prompt = false
+
+[mergetool "nbdime"]
+	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
+
+[mergetool]
+	prompt = false
