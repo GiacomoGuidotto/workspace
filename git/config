@@ -1,5 +1,5 @@
 [include]
-    path = "~/.config/git/catpuccin.gitconfig"
+    path = ~/.config/git/catppuccin.gitconfig
 
 [core]
     autocrlf = input
@@ -26,3 +26,6 @@
     side-by-side = true
     paging = never
     features = catppuccin-mocha
+
+[url "https://giacomo.guidotto:3BdqJDNv71LT0BNV4qDtqQ1ZbbPdolezKyOXNhonO01CeBY6xklvJQQJ99BCACAAAAA9aEpvAAASAZDOXY3Q@danfoss.visualstudio.com"]
+	insteadOf = https://danfoss.visualstudio.com
