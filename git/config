@@ -27,5 +27,6 @@
     paging = never
     features = catppuccin-mocha
 
-[url "https://giacomo.guidotto:3BdqJDNv71LT0BNV4qDtqQ1ZbbPdolezKyOXNhonO01CeBY6xklvJQQJ99BCACAAAAA9aEpvAAASAZDOXY3Q@danfoss.visualstudio.com"]
-	insteadOf = https://danfoss.visualstudio.com
+[user]
+	name = Giacomo Guidotto
+	email = giacomo.guidotto@gmail.com
