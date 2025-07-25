@@ -1,10 +1,14 @@
+[user]
+	name = Giacomo Guidotto
+	email = giacomo.guidotto@gmail.com
+
 [include]
-    path = ~/.config/git/catppuccin.gitconfig
+    path = ./catppuccin.gitconfig
 
 [core]
     autocrlf = input
     pager = delta
-    attributesfile = "~/.config/git/attributes"
+    attributesfile = ./attributes
 
 [interactive]
     diffFilter = delta
@@ -26,10 +30,6 @@
     side-by-side = true
     paging = never
     features = catppuccin-mocha
-
-[user]
-	name = Giacomo Guidotto
-	email = giacomo.guidotto@gmail.com
 
 [url "git@ssh.dev.azure.com:v3/danfoss/Alsense/alsense.shared.go"]
 	insteadOf = https://danfoss.visualstudio.com/Alsense/_git/alsense.shared.go
