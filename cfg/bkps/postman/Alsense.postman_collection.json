@@ -225,14 +225,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{core-url}}/v2/tenant/:company_guid/sites/:site/assets/hierarchy?embed=setpoints,diagnostic_types",
+									"raw": "{{core-url}}/v2/tenant/:company/sites/:site/assets/hierarchy?embed=setpoints,diagnostic_types",
 									"host": [
 										"{{core-url}}"
 									],
 									"path": [
 										"v2",
 										"tenant",
-										":company_guid",
+										":company",
 										"sites",
 										":site",
 										"assets",
@@ -296,7 +296,7 @@
 									],
 									"variable": [
 										{
-											"key": "company_guid",
+											"key": "company",
 											"value": "{{company-1}}"
 										},
 										{
@@ -319,7 +319,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{core-url}}/v2/tenant/:company_guid/sites/:site/assets/hierarchy?embed=setpoints,diagnostic_types&guid[in]={{suction-group-1}},b7bed2d2-171d-4dd0-aa3c-2586f13dc273,a04b682f-d424-4db2-8ec7-be0846a4810b",
+											"raw": "{{core-url}}/v2/tenant/:company_guid/sites/:site/assets/hierarchy?embed=setpoints,diagnostic_types",
 											"host": [
 												"{{core-url}}"
 											],
@@ -354,7 +354,8 @@
 												},
 												{
 													"key": "guid[in]",
-													"value": "{{suction-group-1}},b7bed2d2-171d-4dd0-aa3c-2586f13dc273,a04b682f-d424-4db2-8ec7-be0846a4810b"
+													"value": "{{suction-group-1}},{{evaporator-1}},{{evaporator-2}}",
+													"disabled": true
 												},
 												{
 													"key": "device_category.name[eq]",
@@ -394,7 +395,7 @@
 												},
 												{
 													"key": "site",
-													"value": "{{site-1}}"
+													"value": "{{site-4}}"
 												}
 											]
 										}
@@ -588,282 +589,45 @@
 					"name": "entity-api",
 					"item": [
 						{
-							"name": "persistence ops",
-							"item": [
-								{
-									"name": "types",
-									"item": [
+							"name": "filters",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\n    \"{{site-1}}\"\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{entity-url}}/v1/tenants/:company/filters",
+									"host": [
+										"{{entity-url}}"
+									],
+									"path": [
+										"v1",
+										"tenants",
+										":company",
+										"filters"
+									],
+									"variable": [
 										{
-											"name": "get persistence types",
-											"request": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "x-user-email",
-														"value": "marco.fratton@danfoss.com",
-														"type": "text"
-													}
-												],
-												"url": {
-													"raw": "http://localhost:8080/v1/persistence/types",
-													"protocol": "http",
-													"host": [
-														"localhost"
-													],
-													"port": "8080",
-													"path": [
-														"v1",
-														"persistence",
-														"types"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "delete persistence types",
-											"request": {
-												"method": "DELETE",
-												"header": [
-													{
-														"key": "x-user-email",
-														"value": "marco.fratton@danfoss.com",
-														"type": "text"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "[\"3f06b128-ffff-40bb-be26-876e73fc5ac2\"]",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "http://localhost:8080/v1/persistence/types",
-													"protocol": "http",
-													"host": [
-														"localhost"
-													],
-													"port": "8080",
-													"path": [
-														"v1",
-														"persistence",
-														"types"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "PUT persistence type",
-											"request": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "x-user-email",
-														"value": "marco.fratton@danfoss.com",
-														"type": "text"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n    \"guid\": \"3f06b128-ffff-40bb-be26-876e73fc5ac2\",\n    \"name\": \"scrivania\"\n}",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "http://localhost:8080/v1/persistence/types",
-													"protocol": "http",
-													"host": [
-														"localhost"
-													],
-													"port": "8080",
-													"path": [
-														"v1",
-														"persistence",
-														"types"
-													]
-												}
-											},
-											"response": []
-										},
-										{
-											"name": "put persistence OW types",
-											"request": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "x-user-email",
-														"value": "marco.fratton@danfoss.com",
-														"type": "text"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "[\n    {\n        \"guid\": \"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n        \"name\": \"floor\",\n        \"supportsHACCP\": false\n    },\n    {\n        \"guid\": \"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n        \"name\": \"room\",\n        \"supportsHACCP\": true\n    },\n    {\n        \"guid\": \"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n        \"name\": \"building\",\n        \"supportsHACCP\": false\n    }\n]",
-													"options": {
-														"raw": {
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "http://localhost:8080/v1/persistence/types/ow",
-													"protocol": "http",
-													"host": [
-														"localhost"
-													],
-													"port": "8080",
-													"path": [
-														"v1",
-														"persistence",
-														"types",
-														"ow"
-													]
-												}
-											},
-											"response": []
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
-								},
-								{
-									"name": "get persistence",
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "x-user-email",
-												"value": "marco.fratton@danfoss.com",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "http://localhost:8080/v1/persistence",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"v1",
-												"persistence"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "delete persistence",
-									"request": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "x-user-email",
-												"value": "marco.fratton@danfoss.com",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "[\"83c84580-5103-4498-9022-0cc28b6fbed2\"]",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:8080/v1/persistence",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"v1",
-												"persistence"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "PUT persistence",
-									"request": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "x-user-email",
-												"value": "marco.fratton@danfoss.com",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": " {\n        \"guid\": \"2db952ff-e5d5-43ab-bda2-78b7b8bd1dbc\",\n        \"companyUUID\": \"c5faa943-4703-4c3f-a49b-7bf850cbc738\",\n        \"name\": \"Condenser Room\",\n        \"type\": {\n            \"guid\": \"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n            \"name\": \"room\"\n        },\n        \"tags\": [],\n        \"isSite\": false,\n        \"children\": [],\n        \"assets\": [\n            \"f08c5f16-f17a-4964-8ab5-04c73d007af7\",\n            \"3540956e-4d8e-4386-ae50-0b32262cfbf7\",\n            \"9b294290-f6bf-416e-b882-619b6803039f\",\n            \"19833a54-627f-4f8c-b06e-c322d25f4136\",\n            \"42e86ad5-2e63-4992-8574-153bc9157234\",\n            \"178b617f-ae12-4fd7-9b8f-8ebc65ba2e6d\"\n        ]\n    }\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:8080/v1/persistence",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"v1",
-												"persistence"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "post persistence OW",
-									"request": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "x-user-email",
-												"value": "marco.fratton@danfoss.com",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "[\n   {\n      \"guid\":\"68f65a37-57af-47fd-9fcc-e2d17863f1e1\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 1 - Fruits\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"ValFruits\",\n         \"McCold\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"bd7680bf-0fa9-4208-a00a-51a6cc322780\",\n         \"4425f5d1-500a-466f-b98e-ad4f088677d2\"\n      ]\n   },\n   {\n      \"guid\":\"856c297e-d826-4d71-8bdf-49ab2a39d280\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 2 - Frozen\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"Fresh&Mix\",\n         \"IceCo\",\n         \"McCold\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"333b3f9e-fc34-4c7e-886a-39331007a335\",\n         \"21a0d89d-0481-4562-98b6-059b7ef360cc\"\n      ]\n   },\n   {\n      \"guid\":\"5480f7a2-f3c5-45a7-95f7-005cfc606918\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 3\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"811090fc-5ca4-4c19-b13f-3bcff36c1fba\",\n         \"261f2fcc-26c9-45a4-9f76-4cb22c4dfa36\"\n      ]\n   },\n   {\n      \"guid\":\"6b771495-6aa4-4159-8183-2e8c6776a896\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Building B\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"d8bf75b7-80b0-4b39-aab6-0f908314e79d\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"d8bf75b7-80b0-4b39-aab6-0f908314e79d\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"eec4b4a8-604a-40aa-8883-cc88cfa29360\",\n         \"b8cc722b-df9d-43ab-ae7f-ebe56220f297\",\n         \"074e2264-7184-4640-8a6e-16c7ba75dcdd\",\n         \"499c1743-1b60-41c9-bf1b-bdabec4c5871\",\n         \"4d5560aa-2bc7-4bc1-9a55-000d746da70c\",\n         \"c2a799e9-6b3d-4a56-9722-462666ef3d65\",\n         \"e476b516-e940-4049-affd-14efd8806df6\",\n         \"b609676b-26e6-4d77-9ecf-b82ac5289dc7\",\n         \"9f963f18-1447-4824-a98f-9e1dd1ac0bb2\",\n         \"e31b59ae-5bbb-4495-bb2a-b18f91ae3d71\",\n         \"19fe01c3-317b-4a2f-b296-a0ef90a92284\",\n         \"4b84bec2-d2d5-4c75-85b4-608e7ad0bc1f\",\n         \"01f79c73-e53e-42f6-a638-1a73f80f5ccf\",\n         \"c27097e5-9f52-4aef-bbe0-5389d520ad08\",\n         \"4e63ffaf-deec-4940-b8dc-c6f79f936151\",\n         \"1dfe152e-cf5f-4efe-9301-a22b22a6b6dc\",\n         \"e1c1264f-c86d-4be1-93c6-90eea1153500\",\n         \"36a28b04-6920-4cb5-a90c-e9286c294351\",\n         \"c75ed65b-7037-414e-8499-0f5698c41930\",\n         \"b97a72e4-7269-4400-bcab-08b8a36352e6\",\n         \"45152c78-7a15-4256-a9c7-e1b959418183\",\n         \"8cc575a3-79f6-4e10-9fe7-6d6e825a3298\",\n         \"41ac48e9-3211-40b0-a128-f860ecd8905c\",\n         \"edf371f9-33ed-4e0e-9198-2cb16f6bc96f\",\n         \"0d295325-3102-4aaf-b0e7-72987bd7ba11\",\n         \"8eb4bfdd-f4be-4e9b-a04a-ce2862267183\",\n         \"d460ca6a-bd30-41f0-afcb-5aae18cbf35b\",\n         \"e5a6128b-0a90-4806-9f1c-22fdc452a952\",\n         \"27380dd3-3680-4433-928d-46c90ee38c58\"\n      ]\n   },\n   {\n      \"guid\":\"098b4d64-0f7d-4bfc-bb7f-ec94be89311c\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Building A\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"68f65a37-57af-47fd-9fcc-e2d17863f1e1\",\n         \"856c297e-d826-4d71-8bdf-49ab2a39d280\",\n         \"5480f7a2-f3c5-45a7-95f7-005cfc606918\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"1776f32e-ade8-4a0f-a2dd-3f5a9e658dd8\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Building A\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"a8abe28c-2afa-4093-880d-c3c58ec015c6\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"156e16e8-2a5e-4a22-926b-00bfe4deb58e\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Building B\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"53eaed61-e062-4a60-a203-6543e4631074\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"53eaed61-e062-4a60-a203-6543e4631074\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"19521612-e81e-4973-8c57-1e6806b7891a\",\n         \"3b9f5efc-f67f-4d51-bc11-2731d15ff03b\",\n         \"dca6f353-d9e5-40c1-9d79-eafb3bb03e9f\",\n         \"ad293cd0-8a94-48fc-ae1c-6a586f13aa68\",\n         \"7d648ac8-adac-4d2f-a714-bcc7e4dc8b54\",\n         \"660ad63a-bfc9-41df-aef5-af617d2c75a7\",\n         \"225110c0-ede8-4505-bb11-000c9775ab95\",\n         \"0477c788-89a0-4d54-9d13-5b5a124c1c1a\",\n         \"e0148ecc-4a6c-4ea3-a88c-56e3311bcbd2\",\n         \"b2581bad-3477-44ad-b200-2885192cc946\",\n         \"1e1b2e5d-6750-4c2d-b615-db3e76c445ef\",\n         \"eb06bc10-841f-4a3d-a214-719d140cc485\",\n         \"375862f8-d0b5-4586-a02e-3a7e811fc4df\",\n         \"23cbf7ef-ce2c-47f2-878d-1ff0569570a2\",\n         \"d8e563cc-5eb9-4861-b147-49686de80952\",\n         \"a7b2bc63-aa08-4d7b-863a-0afa7dab1478\",\n         \"3be634ea-d461-4bee-abdf-2adc330f492c\",\n         \"fe34c57e-0559-41be-818b-a4d84ca77557\",\n         \"5c0ca412-5850-444a-8644-b01f7f1ec3a3\",\n         \"76d03974-2a4a-42c7-b397-95425fd1cee3\",\n         \"d61215a3-87a1-405d-8d9b-0be66f2eef28\",\n         \"7f482c97-1b1f-4988-8da4-c1ce001488f5\",\n         \"839e4dc4-652f-43e3-9177-d585f0463aed\",\n         \"1ecae734-7743-44e5-abf0-5b54cf03c710\",\n         \"2ad1adfe-f3ad-44cc-ab9d-27e516c399d9\",\n         \"6fb48998-ef76-4531-a321-68ed8050a806\",\n         \"49eeb703-ac69-425d-8bd2-b8636c2a308a\",\n         \"45904421-d700-463e-b318-7889a7f15779\",\n         \"b125f133-72ec-4691-b8f1-d4fe2566eae1\",\n         \"b2c64c36-da33-4a72-8049-82a6da1c34f9\",\n         \"93197bb6-c61d-4af9-94ee-9023e807288b\",\n         \"032c4364-4e08-4330-92c6-eecd2876d99c\",\n         \"1e8af6f3-a971-4691-99b5-a5ad4130c8bf\"\n      ]\n   },\n   {\n      \"guid\":\"a8abe28c-2afa-4093-880d-c3c58ec015c6\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ground floor\",\n      \"type\":\"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"84cce8ba-b059-45ca-a926-445c119f652f\",\n         \"d02b8eaf-9a31-4fb7-a513-5d9cf5d03375\",\n         \"afde2316-0836-465f-bf58-8b2733b1133a\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"84cce8ba-b059-45ca-a926-445c119f652f\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 1 (+4°C)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"34865254-2429-451f-a854-dad7536cd0e7\"\n      ]\n   },\n   {\n      \"guid\":\"d02b8eaf-9a31-4fb7-a513-5d9cf5d03375\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 2 (-20°C)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"McCold\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"a9e3a7c2-2926-497a-a13f-77c7beacd754\",\n         \"5c15dcf3-0d67-4dce-87c9-039777796fdf\"\n      ]\n   },\n   {\n      \"guid\":\"afde2316-0836-465f-bf58-8b2733b1133a\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 3\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"3da6fa80-9545-4709-ab4a-6e5840cfc78d\",\n         \"bf240a62-3141-4f2a-91f3-59e9853a13c2\"\n      ]\n   },\n   {\n      \"guid\":\"cfd48ec3-f8f7-4c66-8bc6-cf81a12264ac\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ozak – School Street [OLD]\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"328d74a5-e1af-4a6d-8702-cbd6584ef399\",\n         \"3217c8e2-6cd7-4e7f-936c-f54a42f393f9\",\n         \"7c5fd8ae-9d3a-4be9-ab1c-513872d605b7\",\n         \"46420bf1-740d-4242-b366-30ab0696d270\",\n         \"abbec0ab-6a43-425b-86ab-498187c84b32\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"3217c8e2-6cd7-4e7f-936c-f54a42f393f9\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage A\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"ValFruit\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"ad13e7e9-10d6-4ab1-8893-7e21c7bb9fb4\"\n      ]\n   },\n   {\n      \"guid\":\"7c5fd8ae-9d3a-4be9-ab1c-513872d605b7\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage B\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"ValFruit\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"35d399f1-27d9-4554-8f33-35334a0b3563\",\n         \"df0eac44-4a52-4771-86f9-61af620906d0\"\n      ]\n   },\n   {\n      \"guid\":\"46420bf1-740d-4242-b366-30ab0696d270\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage C\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"IceCo\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"ed18dd85-472f-40aa-be8f-70125f4da137\"\n      ]\n   },\n   {\n      \"guid\":\"abbec0ab-6a43-425b-86ab-498187c84b32\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage D\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"IceCo\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"5fc73c5b-c231-44e5-a178-6581e150afb0\"\n      ]\n   },\n   {\n      \"guid\":\"328d74a5-e1af-4a6d-8702-cbd6584ef399\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"93fb2126-55fd-4594-b1b4-25155af94286\",\n         \"8cc34b6b-5aa7-41e9-a943-66f8874e8824\",\n         \"e39c4628-daf1-45ac-b2e6-caaddf1291fd\",\n         \"3b234739-8681-400c-a794-214570003b4f\",\n         \"14d5200c-b446-4661-a9b1-13383704bcae\",\n         \"85e148f8-b95e-467c-bdf8-cb7a8e41f8ab\",\n         \"5ada4e00-399d-4985-857c-af1b57e2bb5b\",\n         \"87fd7ba7-f291-4277-a3b1-9be73eea0d36\",\n         \"7606872f-4289-4bb5-8338-d7cdac48972b\",\n         \"945c8bc9-e571-4772-8918-ac502d372c61\",\n         \"ab306cd8-e4f2-4cc0-b3af-adb959d1180f\",\n         \"c975dfcf-152a-48c2-9aea-ea239ffe7a89\",\n         \"2da390b8-d24c-4915-94e5-dee7b534959a\",\n         \"89e2022c-a518-4f24-b84a-29d8ca464af5\",\n         \"62a6d464-0b06-43b1-a5b4-50696ee93eca\",\n         \"6aed1e3c-172e-4de6-9c43-e99740adafa5\",\n         \"8be40dde-74a2-4b40-8096-fb89ff3e3c93\",\n         \"270a9a0e-84db-48f8-8931-1a39b1a59302\",\n         \"35e626f8-2e56-4e39-8a06-57fe1c395aff\",\n         \"2d30766f-9b59-4e8d-962d-f0a3e7a0e204\",\n         \"781e7f54-1e32-4438-bb04-39f19ee2bbbb\",\n         \"05ae5a74-361d-410b-8470-96e366132909\",\n         \"6af42b32-9ca6-41e4-ac99-952c75686c15\",\n         \"04dd840c-be06-4f06-950d-26c9278ce861\",\n         \"824e460b-614d-4727-be1d-ae372bf55605\",\n         \"c3696d7f-f0d3-48d8-b679-e7e91bd5b53a\",\n         \"89e1fb78-41c6-41d3-a449-ebc60de74779\",\n         \"1fe1d1e5-6fe6-4272-890a-f64b6c69f168\",\n         \"7c6fe4ee-847c-4a6e-87e5-aac34abf3340\",\n         \"5c9dcb1d-487c-4360-a730-32285334aa59\",\n         \"6aafdc60-8722-4184-9058-fe245d517c5d\",\n         \"e684f799-bde3-418c-9b84-abd161e6b9f8\",\n         \"5266ea81-b095-4e82-af0c-512113cb5277\"\n      ]\n   },\n   {\n      \"guid\":\"819aacb1-078f-47e3-bbe4-c2504858064f\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ozak - Land\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"6b771495-6aa4-4159-8183-2e8c6776a896\",\n         \"098b4d64-0f7d-4bfc-bb7f-ec94be89311c\"\n      ],\n      \"assets\":[\n         \"52cf982d-13ac-4304-b0b8-467bf67a133b\",\n         \"41355b8e-2d98-4b14-890f-ecbc3282179f\",\n         \"07fe88d7-1337-4eff-8dc7-860e78ace788\"\n      ]\n   },\n   {\n      \"guid\":\"fcdd3c2d-5152-448b-885f-77ac451c8e67\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Baltimore\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"f0e15333-175c-4478-ba25-b9ceaf46fbaa\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Munich\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"e06698be-52cb-431d-902d-80361a85407a\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ozak - Ferry\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"1776f32e-ade8-4a0f-a2dd-3f5a9e658dd8\",\n         \"156e16e8-2a5e-4a22-926b-00bfe4deb58e\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"e759f1c5-435e-461e-93dd-d222ca338704\",\n      \"companyUUID\":\"0233bd9a-60dd-44e4-ab59-c577ff6fee98\",\n      \"name\":\"Torre Eva\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"c495b8dc-ce99-43c9-9780-a80e94862f5c\",\n      \"companyUUID\":\"0233bd9a-60dd-44e4-ab59-c577ff6fee98\",\n      \"name\":\"Jacksonville Bever\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"8b9f9b24-efb4-4818-bde7-26719571fab5\",\n      \"companyUUID\":\"0233bd9a-60dd-44e4-ab59-c577ff6fee98\",\n      \"name\":\"test\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"af03b10a-5445-4d55-a6b8-a59df69e9f49\",\n      \"companyUUID\":\"0233bd9a-60dd-44e4-ab59-c577ff6fee98\",\n      \"name\":\"test12\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"d8177379-c883-4f4c-adb0-95bfb636985b\",\n      \"companyUUID\":\"0233bd9a-60dd-44e4-ab59-c577ff6fee98\",\n      \"name\":\"Eva\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"22c64ff5-d973-468d-af72-c793ae28bd4a\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ozark – Ferry\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"e8f7b04b-a34a-407c-9387-8b79fc3d20d6\",\n         \"136acd20-1f0c-45ea-86a7-d02209c1f525\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"e8f7b04b-a34a-407c-9387-8b79fc3d20d6\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Building A\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"07c26305-c241-4977-9402-872d14e361c9\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"07c26305-c241-4977-9402-872d14e361c9\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ground floor\",\n      \"type\":\"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"ce154dfb-6128-4710-8a99-bb28bd84f930\",\n         \"54a90a6e-3e4b-4de3-9e2b-633ab10cd47d\",\n         \"38bcbdcc-0afa-48c2-9297-de3672552674\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"ce154dfb-6128-4710-8a99-bb28bd84f930\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 1 (+4°C)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"6209cf1c-a813-4255-80f6-5dd0db8923e8\",\n         \"ed6e793e-48b7-4c4e-9e5c-2444c8a5624c\"\n      ]\n   },\n   {\n      \"guid\":\"54a90a6e-3e4b-4de3-9e2b-633ab10cd47d\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 2 (-20°C)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"McCold\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"088c59f8-1c3e-4057-aa6d-13ee0753fb94\",\n         \"4aa6455b-fb6a-44a6-8db0-f17c9540d90b\"\n      ]\n   },\n   {\n      \"guid\":\"38bcbdcc-0afa-48c2-9297-de3672552674\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 3\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"b8a0dc3c-95df-49de-a78f-302d9c4eea0c\",\n         \"8dd1dd58-fd7b-4275-acf1-1554c543b52f\"\n      ]\n   },\n   {\n      \"guid\":\"136acd20-1f0c-45ea-86a7-d02209c1f525\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Building B\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"c5253c25-4a73-4bec-8733-a2ce9afa2109\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"c5253c25-4a73-4bec-8733-a2ce9afa2109\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"efe0daeb-f078-40cd-9102-fe2071b65caf\",\n         \"ba9fc1d7-9138-4cf3-a36d-aae4c23bbe1b\",\n         \"9ff79918-c065-4d9a-9c70-49052ee346bd\",\n         \"9f8cca97-8752-4171-9004-efb65f1df814\",\n         \"ce83f260-4611-4ace-88e4-33d3c1888ab6\",\n         \"18c433a4-2f67-479c-8697-b9ccef5c3df3\",\n         \"de9e30d4-e691-49b6-9c27-a884f39e99bb\",\n         \"c7f45ff2-b2db-45d7-9a16-713283bf1e56\",\n         \"d9319398-2cfa-4b5f-acfd-aa91366ebbd2\",\n         \"6b83f39c-372d-4c82-a004-0e4bfb8f7496\",\n         \"feb10d70-d429-4f37-8b99-0616486b35d8\",\n         \"fff4e1b3-8958-4cb8-9c6d-534900d27706\",\n         \"ed97525b-24a3-4a37-ae9b-c9056893a994\",\n         \"44c56310-8b1e-4ebd-803a-c627594021b7\",\n         \"39e3b797-ef91-4252-98c2-7a9d8111a1af\",\n         \"2337fc66-3397-46c8-97c0-d86ac7344bcc\",\n         \"7efd27d9-8ab3-4ea8-93c4-cf28c982c0fa\",\n         \"bcee8b4c-9082-4659-a083-3090c7649d72\",\n         \"474aaadc-51ba-4d7a-a936-116b0b989d8e\",\n         \"ff278145-4de6-4006-81f2-8c20ebbf4ceb\",\n         \"24d2e26c-d9f5-4192-a024-6bd78289b3ee\",\n         \"b7161523-05b3-4775-b52e-cf4baf51445a\",\n         \"ca174e0b-1ee5-4b89-aea1-a9cdd4ae3c91\",\n         \"827750ea-e5e3-48bc-b224-d192107c16b7\",\n         \"cb8554a4-6999-4b39-bf5b-61784af98414\"\n      ]\n   },\n   {\n      \"guid\":\"78503e2d-4d34-4de7-88fc-f0c329fff564\",\n      \"companyUUID\":\"0233bd9a-60dd-44e4-ab59-c577ff6fee98\",\n      \"name\":\"Innsbruck\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"278d03f1-e737-441d-9a7e-92209e71e6ff\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ozark – Land\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"f6789012-3456-789a-bcde-f01234567890\",\n         \"a1b2c3d4-e5f6-7890-1234-56789abcdef0\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"a1b2c3d4-e5f6-7890-1234-56789abcdef0\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Land Storages\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"b2c3d4e5-f678-9012-3456-789abcdef012\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"b2c3d4e5-f678-9012-3456-789abcdef012\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ground floor\",\n      \"type\":\"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"c3d4e5f6-7890-1234-5678-9abcdef01234\",\n         \"d4e5f678-9012-3456-789a-bcdef0123456\",\n         \"e5f67890-1234-5678-9abc-def012345678\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"c3d4e5f6-7890-1234-5678-9abcdef01234\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Fruit Storage\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"Fresh&Mix\",\n         \"ValFruits\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"b6d29c17-74be-43f3-bce2-53fdcff699c8\",\n         \"13591e4a-d3e9-4ab8-9e18-38beb1e4cb32\"\n      ]\n   },\n   {\n      \"guid\":\"d4e5f678-9012-3456-789a-bcdef0123456\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ice Cream Freezer\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"McCold\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"2d7f602e-bfbc-487e-8005-bdc40d91564f\",\n         \"49e38a02-67d7-4b6d-8200-a7aa50cc9801\"\n      ]\n   },\n   {\n      \"guid\":\"e5f67890-1234-5678-9abc-def012345678\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Soda Storage\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"IceCo\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"ec47e8f7-1b22-46b1-9a51-db8c84b943cc\",\n         \"63560492-8c82-478b-8764-d531f74b943f\"\n      ]\n   },\n   {\n      \"guid\":\"f6789012-3456-789a-bcde-f01234567890\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Land Machinery\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"78901234-5678-9abc-def0-123456789abc\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"78901234-5678-9abc-def0-123456789abc\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"02a1bd76-da1a-461b-854b-717393896ed8\",\n         \"38348216-b631-454a-9638-452c0755e7f2\",\n         \"632906d6-ce53-4ab9-a75a-4fcc95765317\",\n         \"eeb7434f-260e-47fa-8dac-31f41b6f7f2c\",\n         \"9e76a62f-6e61-4389-94ce-92b00cf10d3c\",\n         \"84cbf014-2556-4e6f-b206-737c2fbcc20c\",\n         \"db81ffa0-91f1-485c-8835-17123b54a6e2\",\n         \"583d50a5-f1ab-4714-8604-5c496479c965\",\n         \"3b380f9d-acf6-4fa7-ba30-8ea448390dea\",\n         \"df548c1f-e335-42a9-b9f1-930d9a16dccc\",\n         \"0d0add6c-9c34-438a-9c20-32118baa592b\",\n         \"62e0ab81-6877-4ca4-8a8c-8e16a44ba3f6\",\n         \"3504a448-c9bb-4374-b00e-17f03207a082\",\n         \"1bcb9557-250a-4e82-9cf2-b50721049015\",\n         \"46323b3d-9e68-43f6-99c2-5209a4ee4607\",\n         \"7d9c84c5-26ea-4530-8fcf-f1407c24ed2a\",\n         \"395a7c18-5473-452c-a2cb-b75711c277a7\",\n         \"b97fcf7d-47e9-4404-8e90-7255d5ae496d\",\n         \"ae8aabb6-7a83-425e-bbc4-73ca50dc0955\",\n         \"41a7760e-3f94-4d97-8712-6e3a9fb783b4\",\n         \"19ee783d-d838-49fc-a585-5a04f135c252\",\n         \"60b7f2c2-fde3-47f2-978f-a3b91c84fc0a\",\n         \"fa6aa9b8-5b26-4301-a24b-0fc34967c92b\",\n         \"2a80b423-0184-442a-9b83-b4bb5901d3d7\",\n         \"4775b5ff-da38-44d6-a82c-888013e2d8b1\"\n      ]\n   },\n   {\n      \"guid\":\"3cb9cbe2-b33b-46c6-94fd-9ca0012d710c\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ozark – School Street\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"a430dc70-6764-4ca2-ade8-abd0ec976b9e\",\n         \"1715730d-a1ba-49f9-b2ce-039b913e1a32\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"a430dc70-6764-4ca2-ade8-abd0ec976b9e\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"School Street Storages\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"d9405dd1-097a-4cef-a569-e3a04d3145fa\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"d9405dd1-097a-4cef-a569-e3a04d3145fa\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ground floor\",\n      \"type\":\"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"49a77e69-5868-4fa4-9723-55879b1bee8c\",\n         \"20b55aee-4c33-4d07-889f-2bffbe12b9c0\",\n         \"a478d5df-d5fa-4f5d-8d5e-b62d8be2dd3b\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"49a77e69-5868-4fa4-9723-55879b1bee8c\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 1 (Dairy Products)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"Fresh&Mix\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"2e308252-d826-4a2d-8f67-22fa9c871878\",\n         \"fd1beb73-8d62-4fe7-a371-f74b0b9f0e73\"\n      ]\n   },\n   {\n      \"guid\":\"20b55aee-4c33-4d07-889f-2bffbe12b9c0\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 2 (Frozen Vegetables)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"McCold\",\n         \"IceCo\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"2d645bdb-09c0-4450-bf1b-7f8accee7e77\",\n         \"a48a8c01-e9dd-48d8-9ec6-1ed0307c1663\"\n      ]\n   },\n   {\n      \"guid\":\"a478d5df-d5fa-4f5d-8d5e-b62d8be2dd3b\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 3 (Beverages)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"ValFruits\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"10314358-d167-4430-ba8c-a9e0c23a70b3\",\n         \"36ccc2e3-2c3c-4b25-b043-77980c776345\"\n      ]\n   },\n   {\n      \"guid\":\"1715730d-a1ba-49f9-b2ce-039b913e1a32\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"School Street Machinery\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"72d401dd-481c-4e68-bdbf-ba7f222c33fc\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"72d401dd-481c-4e68-bdbf-ba7f222c33fc\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"e78df5e6-dfd7-419e-87d3-7a6bbf14ece9\",\n         \"cceab541-1b91-49b7-b543-e05c4bd82cdc\",\n         \"bf3d56ca-43ad-4928-a912-fdaa7ea2e474\",\n         \"4677ecf9-aef0-4512-8e98-f2a8a0a5d64a\",\n         \"8a93c9a8-6f34-4a1a-8996-bf92609b8e0d\",\n         \"dd257d8a-71c3-418f-acc9-8508a212f2ea\",\n         \"4a5e3e7a-6559-49a0-9051-df48e29f3697\",\n         \"88700377-9c09-4486-ac70-68e3b391a2ea\",\n         \"05138ee2-a345-4800-a62c-8b42cddb2509\",\n         \"846a5359-0c67-43ec-808c-ce1c55311c26\",\n         \"5198bd1c-d932-45f1-9351-239915b380a5\",\n         \"0927304c-785c-413b-b85b-bf5e4bb3d1cd\",\n         \"af3c92b9-75af-4b7a-aedc-1122f7909f57\",\n         \"f41a0a0b-877a-4d72-8a91-db16dd425c7a\",\n         \"5902c726-04d4-4f2d-868b-9b51c8a45c9f\",\n         \"041c04c7-a400-4c1e-9319-c3647b0a65e1\",\n         \"9fc5d030-d9af-43c5-98c2-d3b0dbff4990\",\n         \"81759df3-6705-4fe9-a1e1-68a1a06fb369\",\n         \"96aa5c46-161d-429e-a451-15038d71e181\",\n         \"212d4411-1666-4107-a004-370e78d6b53c\",\n         \"17e9b36e-bb90-41f1-8fd3-a05a9d6f1087\",\n         \"0c735ed8-d625-47d2-b869-b31ec9cd06f3\",\n         \"18b9d501-12c3-4f28-984c-9dc6d5c7a51b\",\n         \"ebdf268d-a68a-4b2e-a8e3-85fa47edb9d1\",\n         \"19d835a0-542c-4223-8825-8e2c6826020d\"\n      ]\n   },\n   {\n      \"guid\":\"fac91703-6832-4b9c-adde-fa37464205ca\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Baltimore\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"e7056711-caf4-4588-af50-7db79c73f38e\",\n         \"4fd78960-f33b-4b1b-ba66-bd1a17cb8c09\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"e7056711-caf4-4588-af50-7db79c73f38e\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Baltimore Storages\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"3cf0d7d2-2d66-4e8b-855a-7d7e86d9789a\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"3cf0d7d2-2d66-4e8b-855a-7d7e86d9789a\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ground floor\",\n      \"type\":\"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"5b2297c7-de20-40b4-bfa8-226e96701f9a\",\n         \"1ff6f771-3ef9-43a7-9899-f132ab83dc5f\",\n         \"deefbb06-5856-40c6-96bf-6821733351cf\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"5b2297c7-de20-40b4-bfa8-226e96701f9a\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 1 (Cheese)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"Fresh&Mix\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"95e7241b-29b5-4118-b388-f97f9f9d1350\",\n         \"c3b49ae9-9837-4dd4-90c2-ba307e2e0903\"\n      ]\n   },\n   {\n      \"guid\":\"1ff6f771-3ef9-43a7-9899-f132ab83dc5f\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 2 (Frozen Peas)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"McCold\",\n         \"IceCo\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"20554264-5576-403e-a2eb-274b17d21f98\",\n         \"5cb56782-8ab2-498c-a2c4-7ceb138db628\"\n      ]\n   },\n   {\n      \"guid\":\"deefbb06-5856-40c6-96bf-6821733351cf\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 3 (Juices)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"ValFruits\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"6a3c83fd-ecb6-46fd-b9e7-a7c5cac58009\",\n         \"f3d613f2-1217-46ad-95ab-9a2c190bd979\"\n      ]\n   },\n   {\n      \"guid\":\"4fd78960-f33b-4b1b-ba66-bd1a17cb8c09\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Baltimore Machinery\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"4d5e19f4-c856-4ce9-98e4-9710fe828c00\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"4d5e19f4-c856-4ce9-98e4-9710fe828c00\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"7eb48928-e893-419c-9417-4c3bf48f89f8\",\n         \"b7fa8216-87c6-43ec-b0b8-6d42646e5f87\",\n         \"7df1394b-4baf-4931-9fb3-da6490371556\",\n         \"165fa12a-fe13-4eb6-b41a-c0b3c9029cf7\",\n         \"612f86f7-940f-4b0f-9a56-1db4a2a6dfe5\",\n         \"a9aaf82f-90e0-4d58-8cd6-4143b2dcb69e\",\n         \"5b95a168-e10c-442f-8fe9-c70f04fabf0e\",\n         \"a0c9e92d-353d-4fea-9310-c0f58183fccc\",\n         \"df3938ba-1644-4b86-ae25-7141b02dbf20\",\n         \"e6eefc9b-ad95-4059-ae87-20db0181080e\",\n         \"943a360e-7738-424c-adc9-b985da7c90a5\",\n         \"2449b86a-ae2a-491a-8470-5f94bbb7b7f8\",\n         \"63fbc59c-05e4-4f6d-a18d-5c9e6c2ee425\",\n         \"a198fd5c-e3c2-4855-ac9e-ebc61cf23f34\",\n         \"39f41842-6f31-4320-af4e-b5c01e313d77\",\n         \"41fb7bd4-2ab9-4c2a-b836-3ba0499b02c1\",\n         \"6a5b7e6b-28b7-4ce9-860c-52f461b81f6f\",\n         \"5a7ed834-26e0-4c48-9ef5-14ea7fcbf7c1\",\n         \"e647996d-9950-43ec-a6a2-3ee9d4196077\",\n         \"b8ecd911-a410-422e-afe6-e663ab1fe4a2\",\n         \"6b1aea46-c6f2-4971-807d-e09c0db4b5f7\",\n         \"1d6458f2-fdbd-4cba-8c48-08c6ee26d6c5\",\n         \"882a254c-2555-4d37-9b6f-2c392e309312\",\n         \"85df0553-9dce-4176-be92-860d0c0cddef\",\n         \"ef80f2c5-966b-4e75-bb97-1147843b2b88\"\n      ]\n   },\n   {\n      \"guid\":\"e5190128-d14f-43bd-a7e8-8261dc0900a4\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Munich\",\n      \"type\":null,\n      \"tags\":[\n         \n      ],\n      \"isSite\":true,\n      \"children\":[\n         \"ef1f1777-56ff-4922-91e3-bbdce51993e5\",\n         \"1b582fe4-8f9c-4c84-aefa-0ca59d509c32\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"ef1f1777-56ff-4922-91e3-bbdce51993e5\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Munich Storages\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"b2ba1408-300d-4d03-a246-2b7366467c73\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"b2ba1408-300d-4d03-a246-2b7366467c73\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Ground floor\",\n      \"type\":\"e0f6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"0210a85d-a3d7-4009-baca-80979d278683\",\n         \"e0df5495-d469-4a2a-9793-2b18fb6d3159\",\n         \"955b73d4-4094-4524-9573-e55f2a770428\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"0210a85d-a3d7-4009-baca-80979d278683\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 1 (Berries)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"IceCo\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"3fe65689-fc82-4e7c-b880-7f4958cb96dd\",\n         \"f421a3a3-9874-4561-b7c8-eee9a4d72140\"\n      ]\n   },\n   {\n      \"guid\":\"e0df5495-d469-4a2a-9793-2b18fb6d3159\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 2 (Frozen Fish)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"Fresh&Mix\",\n         \"ValFruits\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"fad03583-440d-4322-b49a-2f3ef3ba4f56\",\n         \"262803ef-7049-4bfc-9f61-9a584888800a\"\n      ]\n   },\n   {\n      \"guid\":\"955b73d4-4094-4524-9573-e55f2a770428\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Cold Storage 3 (Vegetables)\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \"McCold\"\n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"29000dfe-5bc3-4c9b-9c27-a3f23d1607c2\",\n         \"73618907-8dd9-41eb-87a3-a1558bd06640\"\n      ]\n   },\n   {\n      \"guid\":\"1b582fe4-8f9c-4c84-aefa-0ca59d509c32\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Munich Machinery\",\n      \"type\":\"fff6e236-bb86-459c-9fe1-d0d99d89f6cd\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \"432ae298-f06d-485d-b546-a47ed3f7ceed\"\n      ],\n      \"assets\":[\n         \n      ]\n   },\n   {\n      \"guid\":\"432ae298-f06d-485d-b546-a47ed3f7ceed\",\n      \"companyUUID\":\"da360d5b-b63e-472e-bcde-90b6f70fa768\",\n      \"name\":\"Engine Room\",\n      \"type\":\"3f06b128-a574-40bb-be26-876e73fc5ac2\",\n      \"tags\":[\n         \n      ],\n      \"isSite\":false,\n      \"children\":[\n         \n      ],\n      \"assets\":[\n         \"89d9bea7-6588-431c-b87e-5e6a3b9b7021\",\n         \"99d846bb-5bb9-4a1d-a4cc-63f0a52cee14\",\n         \"cfe23257-f6fa-4d5f-a69e-28d81e7985be\",\n         \"4b1ff8d1-b36b-4856-8573-e0e78a8190d2\",\n         \"4b66ec40-6da4-47ae-973c-7c6100286fae\",\n         \"6f2e983d-d853-42b5-bdc5-27c98f29441d\",\n         \"681c9de1-7bd2-47f2-b71a-5d8fe964ca7b\",\n         \"ed5f1958-1859-4672-bba5-049fc82a1e4e\",\n         \"e41f86b8-c495-4c95-ba9a-9114ff25bd69\",\n         \"288203ae-1586-4fc5-97a9-d27e6d03af33\",\n         \"8ceba538-f93b-45ab-bc27-0050d1cebae4\",\n         \"668681fc-f75d-4cf7-a402-2cec1adf58e5\",\n         \"093c57d7-78a1-44df-ac8f-b8ccb839a981\",\n         \"0e114b38-aa18-422a-bf3b-8aff80312634\",\n         \"3b32d1c4-7595-4ed2-a118-955ccf33cbea\",\n         \"ced75f05-130e-4f4c-87c5-de79440954eb\",\n         \"a4267603-8d46-41b5-9e23-8008cfdc6d74\",\n         \"1c4e085f-bf8c-40ab-9544-724538414d91\",\n         \"906d66dc-bccb-47b5-9c76-1986d9ccdead\",\n         \"247c1762-d11d-40af-8026-c193088bb83e\",\n         \"97fd98f1-0f74-4780-b9a9-66fa24e40f5b\",\n         \"32affa76-abee-4bf7-8649-b822745f449f\",\n         \"c128eb64-8ff5-4707-8c93-daea2fd34594\",\n         \"e5d4d81f-a00e-4416-a7e9-11f112fb4a53\",\n         \"884f8ab5-2b77-4ba7-9051-7f8e3c0ae8ff\"\n      ]\n   }\n]",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://localhost:8080/v1/persistence/ow",
-											"protocol": "http",
-											"host": [
-												"localhost"
-											],
-											"port": "8080",
-											"path": [
-												"v1",
-												"persistence",
-												"ow"
-											]
-										}
-									},
-									"response": []
 								}
-							]
+							},
+							"response": []
 						},
 						{
 							"name": "compose-query",
@@ -915,7 +679,7 @@
 									"variable": [
 										{
 											"key": "company",
-											"value": "{{company}}"
+											"value": "{{company-1}}"
 										}
 									]
 								},
@@ -981,7 +745,7 @@
 									"variable": [
 										{
 											"key": "company",
-											"value": "{{company}}"
+											"value": "{{company-1}}"
 										}
 									]
 								},
@@ -1036,7 +800,7 @@
 									"variable": [
 										{
 											"key": "company",
-											"value": "{{company}}"
+											"value": "{{company-1}}"
 										}
 									]
 								},
@@ -1051,7 +815,7 @@
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -1076,7 +840,7 @@
 									"variable": [
 										{
 											"key": "company",
-											"value": "{{company}}"
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -1090,7 +854,7 @@
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -1119,7 +883,7 @@
 									"variable": [
 										{
 											"key": "company",
-											"value": "{{company}}"
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -1127,38 +891,36 @@
 							"response": []
 						},
 						{
-							"name": "Asset",
+							"name": "asset",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/:guid/assets/:assetGuid",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/assets/:asset",
 									"host": [
-										"localhost"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":guid",
+										":company",
 										"assets",
-										":assetGuid"
+										":asset"
 									],
 									"variable": [
 										{
-											"key": "guid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "assetGuid",
-											"value": "d14afc3f-affa-46e5-8f42-fee328355428"
+											"key": "asset",
+											"value": "{{suction-group-1}}"
 										}
 									]
 								}
@@ -1166,37 +928,32 @@
 							"response": []
 						},
 						{
-							"name": "Asset hierarchy",
+							"name": "assets/hierarchy",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://0.0.0.0:8080/v1/tenants/:guid/assets/hierarchy",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/assets/hierarchy",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":guid",
+										":company",
 										"assets",
 										"hierarchy"
 									],
 									"variable": [
 										{
-											"key": "guid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -1204,31 +961,25 @@
 							"response": []
 						},
 						{
-							"name": "Spatial hierarchy",
+							"name": "spatial/hierarchy",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
-										"description": "l22q056m@duck.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8080/v1/tenants/:tenant/spatial/hierarchy",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/spatial/hierarchy",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":tenant",
+										":company",
 										"spatial",
 										"hierarchy"
 									],
@@ -1266,8 +1017,8 @@
 									],
 									"variable": [
 										{
-											"key": "tenant",
-											"value": ""
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -1275,107 +1026,32 @@
 							"response": []
 						},
 						{
-							"name": "Spatial types",
+							"name": "spatial/types",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"description": "l22q056m@duck.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://127.0.0.1:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/spatial/types",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/spatial/types",
 									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
+										":company",
 										"spatial",
 										"types"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "Spatial tags",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"description": "l22q056m@duck.com",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://127.0.0.1:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/spatial/tags",
-									"protocol": "http",
-									"host": [
-										"127",
-										"0",
-										"0",
-										"1"
-									],
-									"port": "8080",
-									"path": [
-										"v1",
-										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
-										"spatial",
-										"tags"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "site GET",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "http://0.0.0.0:8080/v1/tenants/:companyUUID/sites/:siteUUID",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "8080",
-									"path": [
-										"v1",
-										"tenants",
-										":companyUUID",
-										"sites",
-										":siteUUID"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
-										},
-										{
-											"key": "siteUUID",
-											"value": "83c84580-5103-4498-9022-0cc28b6fbed2"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -1383,19 +1059,89 @@
 							"response": []
 						},
 						{
-							"name": "filters",
+							"name": "spatial/tags",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{entity-url}}/v1/tenants/:company/spatial/tags",
+									"host": [
+										"{{entity-url}}"
+									],
+									"path": [
+										"v1",
+										"tenants",
+										":company",
+										"spatial",
+										"tags"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "site",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{entity-url}}/v1/tenants/:company/sites/:site",
+									"host": [
+										"{{entity-url}}"
+									],
+									"path": [
+										"v1",
+										"tenants",
+										":company",
+										"sites",
+										":site"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "site",
+											"value": "{{site-1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sites",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "[\"baca3f32-6606-4c76-a5f5-95bc7bb27a23\", \"2C902985a0-a27f-4432-a579-20a67bfa98df\"]",
+									"raw": "{\n  \"city\": \"string\",\n  \"country\": \"string\",\n  \"customerSiteCode\": \"string\",\n  \"description\": \"string\",\n  \"extSupplierId\": \"string\",\n  \"features\": [\n    \"Basic\"\n  ],\n  \"latitude\": 90,\n  \"longitude\": 180,\n  \"managerContact\": {\n    \"email\": \"string\",\n    \"name\": \"string\",\n    \"phoneNumber\": \"string\"\n  },\n  \"name\": \"string\",\n  \"phoneNumber\": \"string\",\n  \"siteArea\": 0,\n  \"state\": \"string\",\n  \"street\": \"string\",\n  \"timezone\": \"string\",\n  \"zipCode\": \"string\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1403,25 +1149,27 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:8080/v1/tenants/:guid/filters",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/sites",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":guid",
-										"filters"
+										":company",
+										"sites"
+									],
+									"query": [
+										{
+											"key": null,
+											"value": "",
+											"disabled": true
+										}
 									],
 									"variable": [
 										{
-											"key": "guid",
-											"value": "baca3f32-6606-4c76-a5f5-95bc7bb27a23"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -1429,13 +1177,13 @@
 							"response": []
 						},
 						{
-							"name": "Device GDM creation",
+							"name": "gateways/GDM",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -1449,32 +1197,27 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:8080/v1/tenants/:companyUUID/sites/:siteUUID/gateways/GDM",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/sites/:site/gateways/GDM",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"sites",
-										":siteUUID",
+										":site",
 										"gateways",
 										"GDM"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "siteUUID",
-											"value": "2192fd73-d0ad-462b-8db5-c515a5b82c42"
+											"key": "site",
+											"value": "{{site-1}}"
 										}
 									]
 								}
@@ -1482,62 +1225,7 @@
 							"response": []
 						},
 						{
-							"name": "Site creation",
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text",
-										"disabled": true
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"city\": \"string\",\n  \"country\": \"string\",\n  \"customerSiteCode\": \"string\",\n  \"description\": \"string\",\n  \"extSupplierId\": \"string\",\n  \"features\": [\n    \"Basic\"\n  ],\n  \"latitude\": 90,\n  \"longitude\": 180,\n  \"managerContact\": {\n    \"email\": \"string\",\n    \"name\": \"string\",\n    \"phoneNumber\": \"string\"\n  },\n  \"name\": \"string\",\n  \"phoneNumber\": \"string\",\n  \"siteArea\": 0,\n  \"state\": \"string\",\n  \"street\": \"string\",\n  \"timezone\": \"string\",\n  \"zipCode\": \"string\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:8080/ /v1/tenants/:companyUUID/sites",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "8080",
-									"path": [
-										" ",
-										"v1",
-										"tenants",
-										":companyUUID",
-										"sites"
-									],
-									"query": [
-										{
-											"key": null,
-											"value": "",
-											"disabled": true
-										}
-									],
-									"variable": [
-										{
-											"key": "companyUUID",
-											"value": "75c39043-a0f3-41bd-a6e0-56331c52bf0c"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "device decommission",
+							"name": "gateway",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -1548,36 +1236,31 @@
 									}
 								],
 								"url": {
-									"raw": "http://0.0.0.0:8080/v1/tenants/:companyUUID/sites/:siteUUID/gateways/:gatewayUUID",
-									"protocol": "http",
+									"raw": "{{entity-url}}/v1/tenants/:company/sites/:site/gateways/:gateway",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{entity-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"sites",
-										":siteUUID",
+										":site",
 										"gateways",
-										":gatewayUUID"
+										":gateway"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "siteUUID",
-											"value": "2628484a-f25c-49ae-a385-1e46ed9bc4e4"
+											"key": "site",
+											"value": "{{site-1}}"
 										},
 										{
-											"key": "gatewayUUID",
-											"value": "c50022a9-4c39-407f-a55b-18d5e1b4971a"
+											"key": "gateway",
+											"value": ""
 										}
 									]
 								}
@@ -2119,16 +1802,15 @@
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "localhost:8090/v1/tenant/:company/sites/:site/assets/:assset/system-views/key-values",
+									"raw": "{{irf-url}}/v1/tenant/:company/sites/:site/assets/:assset/system-views/key-values",
 									"host": [
-										"localhost"
+										"{{irf-url}}"
 									],
-									"port": "8090",
 									"path": [
 										"v1",
 										"tenant",
@@ -2150,15 +1832,15 @@
 									"variable": [
 										{
 											"key": "company",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"value": "{{company-1}}"
 										},
 										{
 											"key": "site",
-											"value": "902985a0-a27f-4432-a579-20a67bfa98df"
+											"value": "{{site-1}}"
 										},
 										{
 											"key": "assset",
-											"value": "8216087a-23a9-4c9a-a79a-5f50c7105115"
+											"value": "{{suction-group-1}}"
 										}
 									]
 								}
@@ -2166,125 +1848,31 @@
 							"response": []
 						},
 						{
-							"name": "keyval UAT",
+							"name": "activity-types",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "https://dev.alsenseplatform.com/api/irf/v1/tenant/:company/sites/:site/assets/:assset/system-views/key-values",
-									"protocol": "https",
+									"raw": "{{irf-url}}/v1/tenant/:company/activity-types",
 									"host": [
-										"dev",
-										"alsenseplatform",
-										"com"
+										"{{irf-url}}"
 									],
 									"path": [
-										"api",
-										"irf",
 										"v1",
 										"tenant",
 										":company",
-										"sites",
-										":site",
-										"assets",
-										":assset",
-										"system-views",
-										"key-values"
-									],
-									"query": [
-										{
-											"key": "include_children",
-											"value": "true",
-											"disabled": true
-										}
-									],
-									"variable": [
-										{
-											"key": "company",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
-										},
-										{
-											"key": "site",
-											"value": "902985a0-a27f-4432-a579-20a67bfa98df"
-										},
-										{
-											"key": "assset",
-											"value": "8216087a-23a9-4c9a-a79a-5f50c7105115"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get activity types",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "marco.fratton@danfoss.com",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "localhost:8089/v1/tenant/c5faa943-4703-4c3f-a49b-7bf850cbc738/activity-types",
-									"host": [
-										"localhost"
-									],
-									"port": "8089",
-									"path": [
-										"v1",
-										"tenant",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
 										"activity-types"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "delete activity",
-							"request": {
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "https://dev.alsenseplatform.com/api/irf/v1/tenant/:companyGuid/activities/:guid",
-									"protocol": "https",
-									"host": [
-										"dev",
-										"alsenseplatform",
-										"com"
-									],
-									"path": [
-										"api",
-										"irf",
-										"v1",
-										"tenant",
-										":companyGuid",
-										"activities",
-										":guid"
 									],
 									"variable": [
 										{
-											"key": "companyGuid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
-										},
-										{
-											"key": "guid",
-											"value": "f624942b-9f2d-47f9-b196-e2b0906fa86c"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -2292,77 +1880,19 @@
 							"response": []
 						},
 						{
-							"name": "get activities",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "localhost:8080/v1/tenant/c5faa943-4703-4c3f-a49b-7bf850cbc738/sites/2cc9d26e-d4bd-4cc3-ae84-8122ce61d7af/activities",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"v1",
-										"tenant",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
-										"sites",
-										"2cc9d26e-d4bd-4cc3-ae84-8122ce61d7af",
-										"activities"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get activities Copy",
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text"
-									}
-								],
-								"url": {
-									"raw": "localhost:8080/v1/tenant/c5faa943-4703-4c3f-a49b-7bf850cbc738/sites/2cc9d26e-d4bd-4cc3-ae84-8122ce61d7af/activities",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"v1",
-										"tenant",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
-										"sites",
-										"2cc9d26e-d4bd-4cc3-ae84-8122ce61d7af",
-										"activities"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "create activity",
+							"name": "activity",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"name\": \"Device Inspection\",\n  \"dueDate\": \"2023-11-30T23:00:00.000Z\",\n  \"targetSiteGuid\": \"902985a0-a27f-4432-a579-20a67bfa98df\",\n  \"activityTypeGuid\": \"b0a1f9c5-b914-411e-bce6-383659eba0e6\"\n}\n ",
+									"raw": "{\n  \"name\": \"Device Inspection\",\n  \"dueDate\": \"2023-11-30T23:00:00.000Z\",\n  \"targetSiteGuid\": \"{{site-1}}\",\n  \"activityTypeGuid\": \"b0a1f9c5-b914-411e-bce6-383659eba0e6\"\n}\n ",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2370,21 +1900,20 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/v1/tenant/:companyGuid/activities",
+									"raw": "{{irf-url}}/v1/tenant/:company/activities",
 									"host": [
-										"localhost"
+										"{{irf-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenant",
-										":companyGuid",
+										":company",
 										"activities"
 									],
 									"variable": [
 										{
-											"key": "companyGuid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -2392,49 +1921,37 @@
 							"response": []
 						},
 						{
-							"name": "upload attachment",
+							"name": "activities",
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"description": "file",
-											"type": "file",
-											"src": "/Users/mattia./Pictures/787248.png"
-										}
-									]
-								},
 								"url": {
-									"raw": "localhost:8080/v1/tenant/:companyGuid/activities/:activityGuid/attachments",
+									"raw": "{{irf-url}}/v1/tenant/:company/sites/:site/activities",
 									"host": [
-										"localhost"
+										"{{irf-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenant",
-										":companyGuid",
-										"activities",
-										":activityGuid",
-										"attachments"
+										":company",
+										"sites",
+										":site",
+										"activities"
 									],
 									"variable": [
 										{
-											"key": "companyGuid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "activityGuid",
-											"value": "d84083ea-084b-485b-a5a4-cd0fbab61dad"
+											"key": "site",
+											"value": "{{site-1}}"
 										}
 									]
 								}
@@ -2442,13 +1959,50 @@
 							"response": []
 						},
 						{
-							"name": "upload attachment Copy",
+							"name": "activity",
 							"request": {
 								"method": "DELETE",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{irf-url}}/v1/tenant/:company/activities/:activity",
+									"host": [
+										"{{irf-url}}"
+									],
+									"path": [
+										"v1",
+										"tenant",
+										":company",
+										"activities",
+										":activity"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "activity",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "attachment",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -2459,104 +2013,114 @@
 											"key": "file",
 											"description": "file",
 											"type": "file",
-											"src": "/Users/marco.fratton/Downloads/VictoriaMetrics.pdf"
+											"src": "postman-cloud:///1f099efa-538c-4540-a8be-c3aad4c19ecd"
 										}
 									]
 								},
 								"url": {
-									"raw": "localhost:8080/v1/tenant/:companyGuid/activities/:activityGuid/attachments/:atchGuid",
+									"raw": "{{irf-url}}/v1/tenant/:company/activities/:activity/attachments",
 									"host": [
-										"localhost"
+										"{{irf-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenant",
-										":companyGuid",
+										":company",
 										"activities",
-										":activityGuid",
+										":activity",
+										"attachments"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "activity",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "attachment",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{irf-url}}/v1/tenant/:company/activities/:activity/attachments",
+									"host": [
+										"{{irf-url}}"
+									],
+									"path": [
+										"v1",
+										"tenant",
+										":company",
+										"activities",
+										":activity",
+										"attachments"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "activity",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "attachment",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{irf-url}}/v1/tenant/:company/activities/:activity/attachments/:attachment",
+									"host": [
+										"{{irf-url}}"
+									],
+									"path": [
+										"v1",
+										"tenant",
+										":company",
+										"activities",
+										":activity",
 										"attachments",
-										":atchGuid"
+										":attachment"
 									],
 									"variable": [
 										{
-											"key": "companyGuid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "activityGuid",
-											"value": "d84083ea-084b-485b-a5a4-cd0fbab61dad"
+											"key": "activity",
+											"value": ""
 										},
 										{
-											"key": "atchGuid",
-											"value": "8ba66e75-57c3-457e-86c5-9e2ded2b5d64"
+											"key": "attachment",
+											"value": ""
 										}
 									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "get attachemnt",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"description": "file",
-											"type": "file",
-											"src": "/Users/marco.fratton/Downloads/VictoriaMetrics.pdf",
-											"disabled": true
-										}
-									]
-								},
-								"url": {
-									"raw": "localhost:8080/v1/tenant/:companyGuid/activities/:activityGuid/attachments",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"v1",
-										"tenant",
-										":companyGuid",
-										"activities",
-										":activityGuid",
-										"attachments"
-									],
-									"variable": [
-										{
-											"key": "companyGuid",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
-										},
-										{
-											"key": "activityGuid",
-											"value": "d84083ea-084b-485b-a5a4-cd0fbab61dad"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PATCH act",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": ""
 								}
 							},
 							"response": []
@@ -2568,7 +2132,7 @@
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -2578,23 +2142,16 @@
 										{
 											"key": "file",
 											"type": "file",
-											"src": "/Users/mattia./Pictures/787248 copy.png"
+											"src": "postman-cloud:///1f099f04-1eb3-4620-801a-54628c15eae8"
 										}
 									]
 								},
 								"url": {
-									"raw": "https://api.npd.alsenseplatform.com/dev/api/irf/v1/tenant/:company/media?mediaUUID=d9f373b0-46ec-456b-aacb-a13c90152f1f",
-									"protocol": "https",
+									"raw": "{{irf-url}}/v1/tenant/:company/media?mediaUUID=",
 									"host": [
-										"api",
-										"npd",
-										"alsenseplatform",
-										"com"
+										"{{irf-url}}"
 									],
 									"path": [
-										"dev",
-										"api",
-										"irf",
 										"v1",
 										"tenant",
 										":company",
@@ -2603,13 +2160,13 @@
 									"query": [
 										{
 											"key": "mediaUUID",
-											"value": "d9f373b0-46ec-456b-aacb-a13c90152f1f"
+											"value": ""
 										}
 									],
 									"variable": [
 										{
 											"key": "company",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -2618,34 +2175,20 @@
 						},
 						{
 							"name": "media",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "file",
-											"type": "file",
-											"src": "/Users/mattia./Pictures/787248.png"
-										}
-									]
-								},
 								"url": {
-									"raw": "localhost:8080/v1/tenant/:company/media?mediaUUID=a8fd3faf-3b6d-4ef8-baac-09995c3803bf",
+									"raw": "{{irf-url}}/v1/tenant/:company/media?mediaUUID=",
 									"host": [
-										"localhost"
+										"{{irf-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenant",
@@ -2655,13 +2198,13 @@
 									"query": [
 										{
 											"key": "mediaUUID",
-											"value": "a8fd3faf-3b6d-4ef8-baac-09995c3803bf"
+											"value": ""
 										}
 									],
 									"variable": [
 										{
 											"key": "company",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -2669,44 +2212,36 @@
 							"response": []
 						},
 						{
-							"name": "media Copy",
+							"name": "media",
 							"request": {
 								"method": "DELETE",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "file",
-									"file": {
-										"src": "/Users/mattia./Alsense/alsense.data-service.dashboard-api/src/main/resources/META-INF/resources/img/e787a4b2-2031-43be-acb9-46e0f93d7ca8.png"
-									}
-								},
 								"url": {
-									"raw": "http://localhost:9090/v1/tenant/:company/media/:mediaguid",
-									"protocol": "http",
+									"raw": "{{irf-url}}/v1/tenant/:company/media/:media",
 									"host": [
-										"localhost"
+										"{{irf-url}}"
 									],
-									"port": "9090",
 									"path": [
 										"v1",
 										"tenant",
 										":company",
 										"media",
-										":mediaguid"
+										":media"
 									],
 									"variable": [
 										{
 											"key": "company",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "mediaguid",
-											"value": "e787a4b2-2031-43be-acb9-46e0f93d7ca8"
+											"key": "media",
+											"value": ""
 										}
 									]
 								}
@@ -2719,80 +2254,57 @@
 					"name": "dashboard-api",
 					"item": [
 						{
-							"name": "user configuration",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/dashboards",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"v1",
-										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
-										"dashboards"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "status UAT",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": ""
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "widget media",
+							"name": "dashboards",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "https://dev.alsenseplatform.com/api/dashboard/c5faa943-4703-4c3f-a49b-7bf850cbc738.png",
-									"protocol": "https",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboards?entryPoint=HOME",
 									"host": [
-										"dev",
-										"alsenseplatform",
-										"com"
+										"{{dashboard-url}}"
 									],
 									"path": [
-										"api",
-										"dashboard",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738.png"
+										"v1",
+										"tenants",
+										":company",
+										"dashboards"
+									],
+									"query": [
+										{
+											"key": "entryPoint",
+											"value": "HOME"
+										}
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "POST dashboard",
+							"name": "dashboard",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "[{\"label\":\"HOME DASHBOARD\",\"description\":\"\",\"position\":{\"entryPoint\":\"HOME\"},\"dashboardTemplateUUID\":\"c5f8095f-864c-4ef2-94cb-94f17f447ef4\"}]\n",
+									"raw": "[\n    {\n        \"label\": \"HOME DASHBOARD\",\n        \"description\": \"\",\n        \"position\": {\n            \"entryPoint\": \"HOME\"\n        },\n        \"dashboardTemplateUUID\": \"c5f8095f-864c-4ef2-94cb-94f17f447ef4\"\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2800,51 +2312,57 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/dashboards",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboards",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
+										":company",
 										"dashboards"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										}
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "DELETE dashboard",
+							"name": "dashboard",
 							"request": {
 								"method": "DELETE",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/dashboards/:dashUUID",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboards/:dashboard",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
+										":company",
 										"dashboards",
-										":dashUUID"
+										":dashboard"
 									],
 									"variable": [
 										{
-											"key": "dashUUID",
-											"value": "5dd1f0ec-e859-402f-a25a-05f961ab7ae7"
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "dashboard",
+											"value": ""
 										}
 									]
 								}
@@ -2852,43 +2370,36 @@
 							"response": []
 						},
 						{
-							"name": "DELETE dashboard template",
+							"name": "dashboard-template",
 							"request": {
 								"method": "DELETE",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\"label\":\"Dashboard 1\",\"index\":2,\"description\":\"\",\"position\":{\"entryPoint\":\"HOME\"},\"dashboardTemplateUUID\":\"7965152f-0f9b-42bd-bd62-7c652c208fed\"}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/dashboard-templates/:dashTempl",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboard-templates/:dashboard-template",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
+										":company",
 										"dashboard-templates",
-										":dashTempl"
+										":dashboard-template"
 									],
 									"variable": [
 										{
-											"key": "dashTempl",
-											"value": "7266a9d4-c902-4e7c-b8c2-dd3bd46b28e8"
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "dashboard-template",
+											"value": ""
 										}
 									]
 								}
@@ -2896,15 +2407,14 @@
 							"response": []
 						},
 						{
-							"name": "POST new dashboard template",
+							"name": "dashboard-template",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text",
-										"disabled": true
+										"value": "{{x-user-email}}",
+										"type": "text"
 									}
 								],
 								"body": {
@@ -2917,22 +2427,20 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/:companyUUID/dashboard-templates",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboard-templates",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"dashboard-templates"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -2940,40 +2448,37 @@
 							"response": []
 						},
 						{
-							"name": "CLONE Dashboard template",
+							"name": "dashboard-templates?cloneFrom",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia01@duck.com",
-										"type": "text",
-										"disabled": true
+										"value": "{{x-user-email}}",
+										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/:companyUUID/dashboard-templates?cloneFrom[eq]=39be7488-0623-4880-a469-6d72f43568d8",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboard-templates?cloneFrom[eq]=",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"dashboard-templates"
 									],
 									"query": [
 										{
 											"key": "cloneFrom[eq]",
-											"value": "39be7488-0623-4880-a469-6d72f43568d8"
+											"value": ""
 										}
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -2981,19 +2486,19 @@
 							"response": []
 						},
 						{
-							"name": "PUT dashboard template widgets",
+							"name": "widgets",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "[\n    {\n        \"guid\": \"7e953321-bd8c-4deb-8679-fb5a5ad0cd44\",\n        \"label\": \"ACTIVE ALARMS OVERVIEW\",\n        \"tags\": [\n            \"Alarms\"\n        ],\n        \"index\": 0,\n        \"definition\": {\n            \"template\": \"3e64f45e-ae08-4b78-a1b8-e808d9bc4a48\",\n            \"paramInstances\": [\n                {\n                    \"scope\": \"INHERITED\",\n                    \"editable\": false,\n                    \"templateParamUUID\": \"961165f2-10ca-4fa2-8b90-43c31db00189\",\n                    \"paramSourceUUID\": \"103749a2-a4af-4a40-8cda-84ec976eb848\"\n                }\n            ]\n        }\n    },\n    {\n        \"guid\": \"c337b701-312c-4b5a-a8a2-4e2a3c08b120\",\n        \"index\": 1,\n        \"tags\": [\n            \"Alarms\"\n        ],\n        \"label\": \"ACTIVE ALARMS BY SEVERITY\",\n        \"definition\": {\n            \"template\": \"49561c59-6081-4f99-80d0-e74dad393253\",\n            \"paramInstances\": [\n                {\n                    \"scope\": \"STATIC\",\n                    \"editable\": false,\n                    \"templateParamUUID\": \"34ae9105-2bfc-48c7-8402-39a585c69c7e\",\n                    \"value\": \"2628484a-f25c-49ae-a385-1e46ed9bc4e4\"\n                }\n            ]\n        }\n    },\n     {\n        \"guid\": \"c337b701-312c-4b5a-a8a2-4e2a3c08b120\",\n        \"index\": 2,\n        \"tags\": [\n            \"Alarms\"\n        ],\n        \"label\": \"ACTIVE ALARMS BY SEVERITY\",\n        \"definition\": {\n            \"template\": \"49561c59-6081-4f99-80d0-e74dad393253\",\n            \"paramInstances\": [\n                {\n                    \"scope\": \"STATIC\",\n                    \"editable\": false,\n                    \"templateParamUUID\": \"34ae9105-2bfc-48c7-8402-39a585c69c7e\",\n                    \"value\": \"2628484a-f25c-49ae-a385-1e46ed9bc4e4\"\n                }\n            ]\n        }\n    }\n]",
+									"raw": "[\n    {\n        \"guid\": \"7e953321-bd8c-4deb-8679-fb5a5ad0cd44\",\n        \"label\": \"ACTIVE ALARMS OVERVIEW\",\n        \"tags\": [\n            \"Alarms\"\n        ],\n        \"index\": 0,\n        \"definition\": {\n            \"template\": \"3e64f45e-ae08-4b78-a1b8-e808d9bc4a48\",\n            \"paramInstances\": [\n                {\n                    \"scope\": \"INHERITED\",\n                    \"editable\": false,\n                    \"templateParamUUID\": \"961165f2-10ca-4fa2-8b90-43c31db00189\",\n                    \"paramSourceUUID\": \"103749a2-a4af-4a40-8cda-84ec976eb848\"\n                }\n            ]\n        }\n    },\n    {\n        \"guid\": \"c337b701-312c-4b5a-a8a2-4e2a3c08b120\",\n        \"index\": 1,\n        \"tags\": [\n            \"Alarms\"\n        ],\n        \"label\": \"ACTIVE ALARMS BY SEVERITY\",\n        \"definition\": {\n            \"template\": \"49561c59-6081-4f99-80d0-e74dad393253\",\n            \"paramInstances\": [\n                {\n                    \"scope\": \"STATIC\",\n                    \"editable\": false,\n                    \"templateParamUUID\": \"34ae9105-2bfc-48c7-8402-39a585c69c7e\",\n                    \"value\": \"2628484a-f25c-49ae-a385-1e46ed9bc4e4\"\n                }\n            ]\n        }\n    },\n    {\n        \"guid\": \"c337b701-312c-4b5a-a8a2-4e2a3c08b120\",\n        \"index\": 2,\n        \"tags\": [\n            \"Alarms\"\n        ],\n        \"label\": \"ACTIVE ALARMS BY SEVERITY\",\n        \"definition\": {\n            \"template\": \"49561c59-6081-4f99-80d0-e74dad393253\",\n            \"paramInstances\": [\n                {\n                    \"scope\": \"STATIC\",\n                    \"editable\": false,\n                    \"templateParamUUID\": \"34ae9105-2bfc-48c7-8402-39a585c69c7e\",\n                    \"value\": \"2628484a-f25c-49ae-a385-1e46ed9bc4e4\"\n                }\n            ]\n        }\n    }\n]",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3001,28 +2506,26 @@
 									}
 								},
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/:companyUUID/dashboard-templates/:dashtempl/widgets",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboard-templates/:dashboard-template/widgets",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"dashboard-templates",
-										":dashtempl",
+										":dashboard-template",
 										"widgets"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{dashboard-url}}"
 										},
 										{
-											"key": "dashtempl",
-											"value": "49d3a5cc-738c-47cd-b365-b6f1b912703d"
+											"key": "dashboard-template",
+											"value": ""
 										}
 									]
 								}
@@ -3030,29 +2533,13 @@
 							"response": []
 						},
 						{
-							"name": "Widget template",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": ""
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "PATCH dashboard",
+							"name": "dashboard",
 							"request": {
 								"method": "PATCH",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -3066,24 +2553,24 @@
 									}
 								},
 								"url": {
-									"raw": "{{dashboard-api-url}}/v1/tenants/:companyUUID/dashboards/:dashboardTemplateUUID",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboards/:dashboard",
 									"host": [
-										"{{dashboard-api-url}}"
+										"{{dashboard-url}}"
 									],
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"dashboards",
-										":dashboardTemplateUUID"
+										":dashboard"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "dashboardTemplateUUID",
+											"key": "dashboard",
 											"value": ""
 										}
 									]
@@ -3092,18 +2579,13 @@
 							"response": []
 						},
 						{
-							"name": "share dashboard",
+							"name": "dashboard-template",
 							"request": {
 								"method": "PATCH",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -3117,26 +2599,25 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/v1/tenants/:companyUUID/dashboard-templates/:dashboardTemplateUUID",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboard-templates/:dashboard-template",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":companyUUID",
+										":company",
 										"dashboard-templates",
-										":dashboardTemplateUUID"
+										":dashboard-template"
 									],
 									"variable": [
 										{
-											"key": "companyUUID",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										},
 										{
-											"key": "dashboardTemplateUUID",
-											"value": "8f67496e-7c99-4832-b336-888596ae8207"
+											"key": "dashboard-template",
+											"value": ""
 										}
 									]
 								}
@@ -3144,7 +2625,7 @@
 							"response": []
 						},
 						{
-							"name": "PATCH batch dashboard",
+							"name": "dashboards",
 							"request": {
 								"auth": {
 									"type": "noauth"
@@ -3153,12 +2634,7 @@
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
@@ -3172,26 +2648,26 @@
 									}
 								},
 								"url": {
-									"raw": "localhost:8080/v1/tenants/c5faa943-4703-4c3f-a49b-7bf850cbc738/dashboards?entryPoint=HOME",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboards?entryPoint=HOME",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										"c5faa943-4703-4c3f-a49b-7bf850cbc738",
+										":company",
 										"dashboards"
 									],
 									"query": [
 										{
-											"key": "entity",
-											"value": "[object Object]",
-											"disabled": true
-										},
-										{
 											"key": "entryPoint",
 											"value": "HOME"
+										}
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -3199,33 +2675,31 @@
 							"response": []
 						},
 						{
-							"name": "GET dashboard templates",
+							"name": "dashboard-templates",
 							"request": {
 								"method": "GET",
 								"header": [
 									{
 										"key": "x-user-email",
-										"value": "mattia.girolimetto@danfoss.com",
+										"value": "{{x-user-email}}",
 										"type": "text"
 									}
 								],
 								"url": {
-									"raw": "http://localhost:8080/v1/tenants/:tenant/dashboard-templates",
-									"protocol": "http",
+									"raw": "{{dashboard-url}}/v1/tenants/:company/dashboard-templates",
 									"host": [
-										"localhost"
+										"{{dashboard-url}}"
 									],
-									"port": "8080",
 									"path": [
 										"v1",
 										"tenants",
-										":tenant",
+										":company",
 										"dashboard-templates"
 									],
 									"variable": [
 										{
-											"key": "tenant",
-											"value": "c5faa943-4703-4c3f-a49b-7bf850cbc738"
+											"key": "company",
+											"value": "{{company-1}}"
 										}
 									]
 								}
@@ -3274,6 +2748,49 @@
 										{
 											"key": "company",
 											"value": "{{company-1}}"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "draw-api",
+					"item": [
+						{
+							"name": "graph",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-user-email",
+										"value": "{{x-user-email}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{draw-url}}/v1/tenants/:company/sites/:site/graph",
+									"host": [
+										"{{draw-url}}"
+									],
+									"path": [
+										"v1",
+										"tenants",
+										":company",
+										"sites",
+										":site",
+										"graph"
+									],
+									"variable": [
+										{
+											"key": "company",
+											"value": "{{company-1}}"
+										},
+										{
+											"key": "site",
+											"value": "{{site-1}}"
 										}
 									]
 								}
